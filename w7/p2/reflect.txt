@@ -1,0 +1,77 @@
+
+Full Name  :  Ankita Chandel
+Student ID#: 161317219
+Email      : achandel1@myseneca.ca
+Section    : ZBB
+Date       : 18 March 2023
+
+I learned how to copy data from a file into a sequential container throughout this workshop. Use the algorithm library to sort data values and get a variety of new talents. However, it was quite difficult for me to complete this workshop for it. In order to finish this workshop, I learned the concept via the course notes and YouTube.Answer to the other reflect questions are given below
+
+Ans-1 The STL functions that we used is given below
+1) std::for_each
+std::for_each(collection.begin(), collection.end(), [&os](auto bakedGood) { os << bakedGood << endl; });
+The code loops through a collection of baked goods and prints out each component of each item in the collection.
+
+2) std::accumulate
+auto total_stock = std::accumulate(collection.begin(), collection.end(), 0, [](int acc, const BakedGood& good) { return acc + good.stock; });
+The code uses an accumulation algorithm to calculate the total stock and price of goods within a given range.
+
+3) std::transform
+std::transform(field.begin(), field.end(), field.begin(), ::toupper);
+This used to convert all the bakery items in uppercase
+
+4) std::sort
+std::sort(collection.begin(), collection.end(), [field](const BakedGood& bakedGood1, const BakedGood& bakedGood2) {
+    bool returnVal {};
+    (field == "DESCRIPTION") ? returnVal = bakedGood1. desc < bakedGood2.desc : returnVal;
+    (field == "SHELF") ? returnVal = bakedGood1. shelfLife < bakedGood2.shelfLife : returnVal;
+    (field == "STOCK") ? returnVal = bakedGood1. stock < bakedGood2.stock : returnVal;
+    (field == "PRICE") ? returnVal = bakedGood1. price < bakedGood2.price : returnVal;
+    return returnVal;
+});
+this function is used to sort
+
+5) std::merge
+std::merge(collection.begin(), collection.end(), bakery.collection.begin(), bakery.collection.end(), combined.begin(), [](const BakedGood& bg1, const BakedGood& bg2) {
+    return bg1.price < bg2.price;
+});
+This to merge two vectors and sort them using the price.
+
+6) std::any_of
+return std::any_of(collection.begin(), collection.end(), [desc, bt](const BakedGood& bg) {
+    return bg.desc == desc && bg.m_bakedType == bt;
+});
+The any_of function returns true if any element within the range provided satisfied the predicate that we specified.
+
+7) std::copy_if
+std::copy_if(collection.begin(), collection.end(), std::back_inserter(outOfStockItems),[bt](const BakedGood& bg) {
+    return bg.m_bakedType == bt && bg.stock == 0;
+});
+
+Ans 2 - The advantages are given below
+
+1- Using STL algorithms can make the program shorter and easier to read.
+2- STL algorithms have efficient algorithms built-in, which can make the program faster compared to using plain loops.
+3- STL algorithms are less error-prone, as they are thoroughly tested and debugged, and are used extensively in production code.
+4- When using STL algorithms, the logical complexity is abstracted away, making it easier to avoid logical errors compared to writing the logic ourselves.
+
+Ans 3 - If we use a list instead of a vector, the code would look like this.
+
+std::list<BakedGood> Bakery::combine(Bakery& bakery) {
+    std::vector<BakedGood> combined; // No size needed if you need a list
+    // Sorting both the vectors
+    sortBakery("Price");
+    bakery.sortBakery("Price");
+
+    // Merging
+    std::merge(collection.begin(), collection.end(), bakery.collection.begin(), bakery.collection.end(),
+                std::back_inserter(combined), [](const BakedGood& bg1, const BakedGood& bg2) { // We use backinserter when we use lists
+        return bg1.price < bg2.price;
+    });
+    return combined;
+}
+
+You can also use the std::sort() method with an std::list to sort it.
+std::sort with list only requires a lambda function and not in the normal way.
+collection.sort();
+We call a method on the list that taken in a predicate so that it knows how to sort our list.

@@ -1,0 +1,9 @@
+Full Name  : Ankita Chandel
+Student ID#: 161317219
+Email      : achandel1@myseneca.ca
+Section    : ZBB
+
+
+This workshop has taught me about copy and move assignment operator in c++ what's the basic difference between them and how to use them in the code to make it more
+ effective and what's the difference between r and l value of the code we use both copy and move operator in the building this workshop and this make workshop helps 
+me a loy in clearing the concepts odf it.

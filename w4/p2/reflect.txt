@@ -1,0 +1,41 @@
+Reflection
+Workshop-4
+Name-Ankita Chandel
+
+que1- Composition and aggregation are almost same. Firstly it means just simply using the other class as a class member in a whole class.
+Difference between composition and aggregation is that in composition, creation of the object whose class is contained in container class is done inside that class.
+It cannot be created  outside the container class  that means the objects of both classes cannot exist independently. Also creation of both the objects is done inside container class.
+
+Whereas in aggreagation objects of both the classes can be created and destroyed independtly, they dont have to be in same contained class. Just the object that have been created are used,
+inside the contained class, it can be passed into a class , copied to another object or may be removed later.
+
+
+In the workshop Child class and toy class:-
+In this child class 
+        std::string nameOfChild;
+        int age;
+        const Toy **toys = nullptr;
+        size_t numOfToys = 0;
+
+these are the data members, 
+in toy class  
+int orderId;
+        std::string name;
+        int numOfItems;
+        double price;
+        double Tax;
+
+
+ a toy class is an independent class and can exist without child class , also imn child class , a child may have a toy or maybe not . Also toy is created outside the child class, even 
+child object is also created independenlty. So the child class can use the toy class, but it is not necessary , so this is a kind of association.
+
+
+In confirmorder 
+const Toy** toys = nullptr;
+        size_t countToys = 0;
+
+
+
+In this confirmOrder is the container class, which containes toy in the order, toy object is not created inside the confirmOrder module, only toy object is passed and it is used, 
+but confirmOrder module may have 0 toys, or more , but still order contain toys module so this is an example of aggregation  because order needs to have toys whethers its 0, because the sata 
+members of order are dependent on toys.

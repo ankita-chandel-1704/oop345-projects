@@ -1,0 +1,114 @@
+
+Full Name  :  Ankita Chandel
+Student ID#:  161317219
+Email      :  achandel1@myseneca.ca
+Section    :  ZBB
+Date       :  08 April 2023
+
+We essentially put into practice and review all of the ideas we have studied up to this point as a part of the OOP345 Course through this project. Here, we emulate an assembly line by building one. In other words, we receive a customer order that contains a number of things.
+Every item is modeled as a struct.
+struct Item {
+    std::string m_itemName;
+    size_t m_serialNumber{0};
+    bool m_isFilled{false};
+    Item(const std::string& src) : m_itemName(src) {};
+};
+
+There are already a number of things on order, however, we are unsure of the potential number of orders per customer. As a result, to maintain track of the products in the order, our CustomerOrder class uses a dynamic array of Item pointers.
+
+class CustomerOrder {
+private:
+    std::string m_name {};
+    std::string m_product {};
+    size_t m_cntItem { 0 };
+    Item** m_lstItem { nullptr };
+    static size_t m_widthField;
+}
+
+We read text files containing information on all of our clients, products, and stations. We discovered that we needed a class to manage all of the extraction procedures and duties. Because of this, we developed the Utilities module to aid in file extraction.
+class Utilities {
+private:
+    size_t m_widthField { 1 };
+    inline static char m_delimiter {};
+public:
+    Utilities() = default;
+    void setFieldWidth(size_t newWidth);
+    size_t getFieldWidth() const;
+    std::string extractToken(const std::string& str, size_t& next_pos, bool& more);
+    std::string strip(const std::string& str);
+    static void setDelimiter(char newDelimiter);
+    static char getDelimiter();
+};
+
+We are aware that we have orders with things in them as of right now. Additionally, each object has a specific station attached to it. This implies that each station contains a large number of the same type of products, and it fills the items in the required order. Let's say John requires three beds. If we have three beds available, we shall go to the bed station and add them to John's order. All of a station's information is contained in our Station class. In essence, it serves as a holder for numerous things of the same kind. In our scenario, we just maintain track of the type using the item name rather than an actual item object.
+class Station {
+private:
+        size_t id{};
+        std::string itemName{};
+        std::string desc{};
+        size_t serialNum{};
+        size_t inStockQuantity{ 0 };
+        inline static size_t m_widthField{ 0 };
+        inline static size_t id_generator{ 0 };
+}
+
+Now, think of this scenario, a customer has an order that consists of a table, a chair, and a bed. So we will have to go to the station with the table first and fill in the table. This means that there is only one active station at a time. This active station is known as a workstation in our project.
+class Workstation : public Station {
+    private:
+        std::deque<CustomerOrder> m_orders {};
+        Workstation* m_pNextStation { nullptr };
+}
+So, a Workstation is a station that is in use. Inside of this, we keep track of the orders that are on the workstation and need to be filled in a deque. we also keep track of the next station so that we can move to the next station after we are done with the current one.
+
+In our program, we also have 3 global deques that keep track of the orders that are not on the workstation. These deques are accessible outside their translation units.
+extern std::deque<CustomerOrder> g_pending;
+extern std::deque<CustomerOrder> g_completed;
+extern std::deque<CustomerOrder> g_incomplete;
+
+A Challenge that we usually face in this workshop is this:
+We are given with the following .txt file for the assembly line.
+Nighttable|Desk
+Dresser|Armchair
+Filing Cabinet|Bookcase
+Bookcase
+Bed|Dresser
+Office Chair|Filing Cabinet
+Armchair|Nighttable
+Desk|Office Chair
+
+The station to the right follows the station to the left, with the initial station being "bed" since it is not followed by any other station. To arrange the stations in order, two vectors were created: one for stations on the left side of the pipe character and the other for those on the right. Only stations that exist on both sides were added to the vectors. The first station was determined by checking for the station that appears in the left vector but not in the right vector.
+
+std::vector<std::string> leftStations;
+std::vector<std::string> rightStations;
+
+// Algorithm to determine the first station
+size_t count {};
+std::string fStn {};
+for (const auto & leftStation : leftStations) {
+    count = 0;
+    for (const auto & rightStation : rightStations) {
+        if (leftStation == rightStation) {
+            count++;
+        }
+    }
+    if (count == 0) {
+        fStn = leftStation;
+        break;
+    }
+}
+
+// Setting the fist station
+auto firstStation = std::find_if(stations.begin(), stations.end(), [&](Workstation* station){
+    return station->getItemName() == fStn;
+});
+m_firstStation = *firstStation;
+
+
+Due to all of the specifications provided above. We ended up creating the following modules:
+1. Utilities Module
+2. Station Module
+3. CustomerOrder Module
+4. Workstation Module
+5. LineManager Module
+
+Returning to the example, the manager responsible for overseeing the production line moves the order along to the bed station after it has been through the table and chair stations, in order to fulfill the order. Any station that has exhausted its stock of items is unable to complete any additional orders. Upon completion of all orders, some may be finished while others may remain unfinished due to a shortage of inventory at one or more stations. After the manager has processed all orders, the simulator displays a list of both completed and incomplete orders.

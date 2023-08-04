@@ -1,0 +1,12 @@
+Full Name  : Ankita Chandel
+Student ID#: 161317219
+Email      : achandel1@myseneca.ca
+Section    : ZBB
+Date       : 22 January 2023
+
+This workshop has introduced me to static memory, and as it is totally based on the revision of oop 244, it has had me go through all the
+ concepts connected to dynamic memory and pointers. The foodorders.cpp file, where we utilised an internal link to define the static, was used in this workshop, 
+and I used both internal and exterior links.
+For taxes and discounts, there is a counter and an outside link. The static keyword is utilised when declaring the counter and publishing 
+the output since it limits that variable to that function within that scope. The variable is now declared dynamically with the help of pointers, 
+as opposed to Part 1, where it was declared to a fixed size.

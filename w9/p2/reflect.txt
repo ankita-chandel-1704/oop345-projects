@@ -1,0 +1,14 @@
+Full Name  :  Ankita Chandel
+Student ID#: 161317219
+Email      : achandel1@myseneca.ca
+Section    : ZBB
+Date       : 02 April 2023
+
+
+I learned how to use threads in this course, and I had no trouble using them. Before beginning this workshop, I first refer to the notes from the class and the website. These are the responses to the reflection section.
+
+Ans- 1 - Yes, we employ binary files since they are frequently read and written more quickly. Also, it takes up very little space, which is crucial when working with big volumes of data.
+
+Ans - 2 - The benefits of binding a function to its arguments are numerous. As the same method may be used with many arguments without needing to rewrite it each time, it increases code flexibility and reuse. In this workshop, giving the computeAvgFactor and computeVarFactor functions to a thread object was handy for enabling them to be executed in parallel on various pieces of the data.
+
+Ans - 3 - Increasing processing speed, increasing efficiency, and making greater use of system resources are all benefits of having many threads. The software can do the computation more quickly than if it were done sequentially on a single thread by breaking the data up into smaller pieces and processing them simultaneously on various threads. The std::thread class in C++, which enables the creation and management of many threads within a program, was used in this workshop to implement multi-threading.

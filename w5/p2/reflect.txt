@@ -1,0 +1,129 @@
+/*
+******************************************************
+                              reflect.txt
+Full Name  : Ankita Chandel
+Student ID#: 161317219
+Email      : achandel1@myseneca.ca
+Date of completion    : 19 February 2023
+I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+******************************************************
+*/
+With this session, I learned how to plan and write a templated class that manages dynamic memory allocation and deallocation.
+I achieved this by developing a "Collection" module with a templated class that allocates memory for a dynamic array of items of any kind.
+
+Moreover, the class has an attribute that is a pointer to a function.
+
+template <typename T>
+	class Collection {
+		std::string m_collectionName{};
+		T* m_items{ nullptr };
+		size_t arrSize{ 0 };
+		void (*m_observer)(const Collection<T>&, const T&) { nullptr };
+
+
+The class also has a function that receives the address of a callback function to execute.
+
+// Stores the address of the callback function (observer) into an attribute
+void setObserver(void (*observer)(const Collection<T>&, const T&)) {
+			m_observer = observer;
+		}
+}
+
+This workshop also helps in learning about lambda functions by implementing them.
+
+auto lambda1 = [&](Book &b)
+	{
+		double &nPrice = b.price();
+		//       - if the book was published in US, multiply the price with "usdToCadRate"
+		//            and save the new price in the book object
+		if (b.country() == "US")
+		{
+			nPrice *= usdToCadRate;
+		}
+		//       - if the book was published in UK between 1990 and 1999 (inclussive),
+		//            multiply the price with "gbpToCadRate" and save the new price in the book object
+		if ((b.country() == "UK") && ((b.year() >= 1990) && (b.year() <= 1999)))
+		{
+			nPrice *= gbpToCadRate;
+		}
+	};
+
+Two variables that are outside of the scope of this Lambda function are obtained using references from the capture-list, 
+and it also accepts a 'Book' reference as an argument. After that, it updates the price in accordance with certain reasoning 
+from the aforementioned code.
+The price of every book in the library is then modified using this function.
+
+for (size_t i = 0u; i < library.size(); i++)
+	{
+		lambda1(library[i]);
+	}
+
+We also learn how to implement error and exception handling through try and catch blocks. 
+We essentially wrap the expressions that might possibly throw an exception in a try block and catch the exception later on.
+
+try
+	{
+		for (auto i = 0u; i < 10; ++i)
+			std::cout << theCollection[i];
+	}
+	catch (const std::out_of_range &e)
+	{
+		std::cout << "** EXCEPTION: " << e.what() << std::endl;
+	}
+
+Questions to Answer
+------------------------------------
+Q1) The difference between the implementations/utilizations of a functor and a lambda expression. When is appropriate to use each one?
+A1) An operator() method that is overloaded in a class or struct is known as a functor. Similar to a conventional function, the operator() function can be called and accepted parameters. The shortcut method for defining a function object inline is a lambda expression, on the other hand.
+Following the parameter list and function body, it is defined using the [] operator. A lambda can be used for basic functionality that is only needed locally. Use a functor in lieu of it.
+
+For straightforward functions that are only used once or twice, a lambda expression is utilised.
+Moreover, nested functions can be defined, as well as the ability to collect variables from the enclosing scope.
+For more intricate operations that are repeated or need to preserve some sort of state, a functor is employed.
+
+
+
+class SpellChecker {
+		std::string m_badWords[6]{};
+		std::string m_goodWords[6]{};
+		//constexpr unsigned M_WORDS{ 6 };
+		unsigned m_counter[6]{ 0 };
+	public:
+		SpellChecker() {};
+		SpellChecker(const char* filename);
+		void operator()(std::string& text);
+		void showStatistics(std::ostream& out);
+	};
+
+Lambda Expression in this WS:
+auto lambda1 = [&](Book &b)
+	{
+		double &nPrice = b.price();
+		//       - if the book was published in US, multiply the price with "usdToCadRate"
+		//            and save the new price in the book object
+		if (b.country() == "US")
+		{
+			nPrice *= usdToCadRate;
+		}
+		//       - if the book was published in UK between 1990 and 1999 (inclussive),
+		//            multiply the price with "gbpToCadRate" and save the new price in the book object
+		if ((b.country() == "UK") && ((b.year() >= 1990) && (b.year() <= 1999)))
+		{
+			nPrice *= gbpToCadRate;
+		}
+	};
+
+Q2) The constructor for SpellChecker generates an exception in certain conditions. How would you change your code to achieve the same result, but without exceptions (both on the constructor and on the client side)? Compare the two solutions.
+A2) If we didnt throw the exception as we did right now, we would have to have an if statement in the code that checks whether the 
+object was created successfully or not and then we would have to print a message stating the error. This is very difficult to do again
+and again as exceptions can be very unpredictable. Therefore, it is a good practice to implement exception handling in your code.
+
+Q3) The classes Movie and Book contain almost identical logic in loading data from the file. How would you redesign the classes in order not to duplicate that logic?
+A3) There can be two methods to avoid duplicating the logic for loading data from a file in the Movie and Book classes.
+1) We can introduce a common base class that encapsulates this functionality. The base class can define a virtual method for loading the data from the file, which can be implemented in the derived classes.
+2) We can also create an anonymous class that only has one object which can be used to carry out the functionality of loading data from the file.
+
+Q4) The classes Movie and Book are instantiated from the main() function using a custom constructor, but they also contain a default constructor. Is the default constructor necessary? Could you remove it? Justify your answer.
+A4) Yes, the default constructor is still needed in order to implement the other constructor overloads. 
+However, if you wish to remove the default constructor, you can provide default values to the overloaded / custom constructor.
+Even if the code works without the default constructor, it is a good idea to have them to be safe for future use.

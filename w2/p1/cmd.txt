@@ -1,0 +1,4 @@
+g++ -Wall -std=c++17 -g -o ws TimedTask.cpp ProteinDatabase.cpp w2_p1.cpp
+
+valgrind ./ws proteinsequences.txt
+
